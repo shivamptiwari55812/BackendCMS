@@ -1,28 +1,30 @@
 import mongoose from "mongoose"
 const projectSchema = new mongoose.Schema({
-    BlogImg :{
+    ProjectName:{
         type:String,
-        required:false
-    },
-    BlogText:{
-        type:String,
-        required:True
+        required:true,
     },
     ProjectImg:{
         type:String,
-        required:false
+        required:true
     },
     ProjDescription:{
         type:String,
-        required:false
+        required:true
     },
     VideoProject:{
         type:String,
         required:false
-    }
+    },
+    ProjectCode:{
+        type:String,
+        required:true
+    },
 
 },
 {timestamps:true}
 )
 
 const projectDB = mongoose.model("projectDB",projectSchema)
+
+export default projectDB;
