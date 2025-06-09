@@ -10,32 +10,38 @@ import bcrypt from "bcrypt"
 const signUp = async(req,res)=>{
 
     try{
+      console.log(req.body)
     const errors = validationResult(req);
 
     if(!errors.isEmpty()){
         res.status(400).json({errors:errors.array()});
     }
-    const {username , password , email ,Phone} = req.body;
-    if(!username || !email || !password || !Phone){
+    const {username , password , email ,phone} = req.body;
+    if(!username || !email || !password || !phone){
        return res.status(400).json({"message":'Enter all the required fields'})
     }
+
+    console.log("JAy shree ram")
 
     const hashPassword = await bcrypt.hash(password,10);
     const saveCredentials = await user.create({
         username:username,
         password:hashPassword,
         email:email,
-        Phone:Phone
+        phone:phone
     });
+
+    console.log("Jay Shree ram")
     const payload={
         id:( saveCredentials)._id,
         username:(saveCredentials).username,
         email:( saveCredentials).email,
-        Phone:( saveCredentials).Phone
+        phone:( saveCredentials).phone
 
     }
      const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '2h' });
     console.log(req.body)
+    console.log(token)
     res.status(200).json({"message":'Successfull', token });
     }
     catch(error){
@@ -62,7 +68,7 @@ const login = async (req, res)=>{
   const isMatch = await bcrypt.compare(password,foundUser.password);
 
   if(!isMatch){
-   return res.status(400).json({"message":"Invalid Credential"});
+   return res.status(400).json({"message":"Invalid Password"});
   }
   
   const payload ={

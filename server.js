@@ -16,7 +16,7 @@ dotenv.config();
 app.use(bodyParser.json()); // or just app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
+app.use(cors());
 
 // Routes
 app.use('/api', projectRoutes); // All routes will be prefixed with /api/projects

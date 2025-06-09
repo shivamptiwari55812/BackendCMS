@@ -1,5 +1,10 @@
 import mongoose from "mongoose"
 const projectSchema = new mongoose.Schema({
+    username: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
+    required: true
+  },
     ProjectName:{
         type:String,
         required:true,
@@ -19,6 +24,27 @@ const projectSchema = new mongoose.Schema({
     ProjectCode:{
         type:String,
         required:true
+    },
+
+    linkedIn:{
+        type:String,
+        required:false,
+        unique:true
+    },
+    Github:{
+        type:String,
+        required:false,
+        unique:true
+    },
+    Instagram:{
+        type:String,
+        required:false,
+        unique:true
+    },
+    website:{
+        required:false,
+        type:String,
+        unique:true
     },
 
 },
