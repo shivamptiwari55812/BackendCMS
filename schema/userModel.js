@@ -25,7 +25,8 @@ const userSchema = new mongoose.Schema({
         unique:true,
         required:true,
     },
-},
+
+}, 
 {timestamps:true});
 
 const user = mongoose.model("user",userSchema)

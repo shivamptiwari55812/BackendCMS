@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {validationResult} from "express-validator"
 import user from "../schema/userModel.js";
 import bcrypt from "bcrypt"
+import socials from "../schema/socialsmode.js"
 
 //signUp function
 const signUp = async(req,res)=>{
@@ -64,9 +65,10 @@ const login = async (req, res)=>{
   if(!foundUser){
     return res.status(400).json({"message":"user not found"});
   }
+
   
   const isMatch = await bcrypt.compare(password,foundUser.password);
-
+ 
   if(!isMatch){
    return res.status(400).json({"message":"Invalid Password"});
   }
@@ -74,6 +76,8 @@ const login = async (req, res)=>{
   const payload ={
     id:foundUser._id,
     username: foundUser.username
+    
+
   };
 
   const token = jwt.sign(payload,process.env.JWT_SECRET,{expiresIn:'2h'});
@@ -87,5 +91,48 @@ const login = async (req, res)=>{
   }}
 
 
+
+  const getUserDetails = async function(req,res) {
+    try{
+      const username = req.user.id; 
+      if(!username){
+        return res.status(404).json({"message":"User not found"})
+      }
+    const socialDetails = await socials.findOne({ username: username }).sort({ createdAt: -1 });
+    console.log(socialDetails)
+    return res.status(200).json({"message":'Successfull',socialDetails});
+    }
+
+    catch(error){
+       console.error("Login error:", error);
+    res.status(500).json({ message: 'Server error' });
+    }
+
+  }
+
+  const saveProfiles = async (req,res)=>{
+     try{
+      const userId = req.user.id;
+      const{instagram , github , linkedin , website} = req.body;
+      
+      const createSocials = await socials.create({
+        Instagram:instagram,
+        Github:github,
+        linkedIn:linkedin,
+        website:website,
+        username:userId
+
+      });
+      return res.status(200).json({"message":"Successfull"})
+
+  }catch(error){
+    console.log(error)
+  }
+}
+
+
+
   export default signUp;
   export {login};
+  export {getUserDetails};
+  export {saveProfiles}

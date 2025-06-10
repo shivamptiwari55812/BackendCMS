@@ -26,27 +26,6 @@ const projectSchema = new mongoose.Schema({
         required:true
     },
 
-    linkedIn:{
-        type:String,
-        required:false,
-        unique:true
-    },
-    Github:{
-        type:String,
-        required:false,
-        unique:true
-    },
-    Instagram:{
-        type:String,
-        required:false,
-        unique:true
-    },
-    website:{
-        required:false,
-        type:String,
-        unique:true
-    },
-
 },
 {timestamps:true}
 )
