@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from "multer";
 import verifyToken from "../middleware/authmiddleware.js";
-import {functionality,sendImportant} from '../controller/projectController.js'; // Adjust path if needed
+import {functionality,sendImportant ,delproject} from '../controller/projectController.js'; // Adjust path if needed
 import { cloudinary, storage } from "../utils/cloudinary.js";
 import saveProjects from '../controller/projectController.js';
 
@@ -20,5 +20,6 @@ const multiUpload = upload.fields([
 router.post('/save-project', verifyToken,multiUpload ,saveProjects);
 router.get("/countProject",verifyToken,functionality)
 router.get("/sendImportant",verifyToken,sendImportant)
+router.delete("/delProject",verifyToken,delproject)
 
 export default router;

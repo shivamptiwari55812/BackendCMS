@@ -39,7 +39,15 @@ catch(error){
 
 
 
-const deleteProject
+const deleteProject = async(req,res)=>{
+    try{
+        const id = req.params.id;
+        const project = await projectDB.findByIdAndDelete(id);
+        res.status(200).json({"message":"Successfull"});
+    }catch(error){
+        res.status(500).json({"message":"Server error"});
+    }
+}
 const functionality = async(req,res)=>{
 
     try{
@@ -82,6 +90,22 @@ const sendImportant = async(req,res)=>{
 }
 
 
+const delproject =async (req, res) => {
+  try {
+    const { ProjectName } = req.body;
+
+    const result = await projectDB.findOneAndDelete({ ProjectName });
+    if (!result) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    res.status(200).json({ message: "Project deleted" });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", err });
+  }
+};
+
+
 
 export default saveProjects ;
-export {functionality , sendImportant};
+export {functionality , sendImportant ,delproject};
